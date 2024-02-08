@@ -14,14 +14,9 @@ Webtech Project Periode 1.3
 ==Project-Requirments==
 
 
-==Install Depenencies==
+==Install Dependencies==
 Installeer Python (Via vscode Extentions)
-
-
-
-pip install Flask
-pip install Flask-SQLAlchemy
-pip install Flask-Login
+pip install -r dependencies.txt
 
 ==Documentatie==
 
