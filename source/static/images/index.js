@@ -1,4 +1,4 @@
-//Javasript for the index.html page
+//Javasript voor de home pagina
 function deleteNote(noteId) {
     fetch("/delete-note", {
       method: "POST",
