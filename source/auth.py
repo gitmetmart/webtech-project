@@ -3,17 +3,15 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-
+import re
 
 auth = Blueprint('auth', __name__)
-
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():    #functie voor het inloggen van users
     if request.method == 'POST':    #maakt login velden bruikbaar voor email en password
         email = request.form.get('email')
         password = request.form.get('password')
-
         user = User.query.filter_by(email=email).first() #Checkt het email 1 op 1
         if user:
             if check_password_hash(user.password, password):    #hashed het ingevoerde pass en checkt de overeenkomst met het database
@@ -24,16 +22,13 @@ def login():    #functie voor het inloggen van users
                 flash('Incorrect password, try again.', category='error')
         else:
             flash('Email does not exist.', category='error')
-
     return render_template("login.html", user=current_user)
-
 
 @auth.route('/logout')  #logged de User uit 
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():  #functie voor het aanmaken van nieuwe gebruikers
@@ -43,8 +38,14 @@ def sign_up():  #functie voor het aanmaken van nieuwe gebruikers
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        user = User.query.filter_by(email=email).first() #checkt of email al bestaat in de users database
+        def is_valid_email(email):  #functie voor het checken van een geldig email adres
+            pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+            return re.match(pattern, email) is not None
+
+        user = User.query.filter_by(email=email).first() #checkt of email al bestaat
         if user:
+            flash('Email already exists.', category='error')
+        elif not is_valid_email(email): #checkt of email een geldig email adres is
             flash('Email already exists.', category='error')
         elif len(email) < 4:    #checkt of email lengte groter is dan 4
             flash('Email must be greater than 3 characters.', category='error')

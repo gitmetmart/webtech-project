@@ -1,26 +1,26 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
-<h1 align="center">Notes</h1>
-<ul class="list-group list-group-horizontal" id="notes">
-  {% for note in user.notes %}
-  <li class="list-group-item note-item" style="display: inline-block; margin-right: 10px; width: 200px; height: 200px; background-color: darkgray; text-align: center; position: relative;">
-    <div class="note-content" style="color: black;">
-      {{ note.data }}
+  %}
+  <h1 align="center">Notes</h1>
+  <ul class="list-group list-group-horizontal" id="notes">
+    {% for note in user.notes %}
+    <li class="list-group-item note-item" style="display: inline-block; margin-right: 10px; width: 200px; height: 200px; background-color: darkgray; text-align: center; position: relative;">
+      <div class="note-content" style="color: black;">
+        {{ note.data }}
+      </div>
+      <button type="button" class="close" onClick="deleteNote({{ note.id }})" style="position: absolute; top: 0; left: 0; color: darkred;">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
+  
+  <br> <!-- Add a line break for spacing -->
+  
+  <form method="POST">
+    <textarea name="note" id="note" class="form-control"></textarea>
+    <br />
+    <div align="center">
+      <button type="submit" class="btn btn-primary">Add Note</button>
     </div>
-    <button type="button" class="close" onClick="deleteNote({{ note.id }})" style="position: absolute; top: 0; left: 0; color: darkred;">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </li>
-  {% endfor %}
-</ul>
-
-<br> <!-- Add a line break for spacing -->
-
-<form method="POST">
-  <textarea name="note" id="note" class="form-control"></textarea>
-  <br />
-  <div align="center">
-    <button type="submit" class="btn btn-primary">Add Note</button>
-  </div>
-</form>
-{% endblock %}
+  </form>
+  {% endblock %}
