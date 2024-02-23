@@ -33,3 +33,7 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+@views.route('/about')
+def about():
+    return render_template("about.html")
