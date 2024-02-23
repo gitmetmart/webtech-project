@@ -17,7 +17,9 @@ Webtech Project Periode 1.3
 
 ==Project-Requirments==
 -Sqalchemy koppling met een sqlitdatabase
+
 -gebruikers kunnen accounts aanmaken en inloggen
+
 -Website maakt gebruik van verschillende views
 
 ==Install Dependencies==
