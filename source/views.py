@@ -9,6 +9,11 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    """
+    Deze functie handelt het verzoek af voor de homepagina van de applicatie.
+    Als het verzoek een POST-verzoek is, wordt er een nieuwe notitie toegevoegd aan de database.
+    Als het verzoek een GET-verzoek is, wordt de homepagina gerenderd met de ingelogde gebruiker.
+    """
     if request.method == 'POST': 
         note = request.form.get('note') #Vraagt de notes op
 
@@ -24,6 +29,11 @@ def home():
 
 @views.route('/delete-note', methods=['POST'])
 def delete_note():  
+    """
+    Deze functie handelt het verzoek af om een notitie te verwijderen.
+    Het verzoek bevat de ID van de notitie die moet worden verwijderd.
+    Als de notitie bestaat en de gebruiker is de eigenaar van de notitie, wordt de notitie verwijderd uit de database.
+    """
     note = json.loads(request.data) #Vraag het Index.html java script bestand op (Index.js)
     noteId = note['noteId']
     note = Note.query.get(noteId)
@@ -36,4 +46,8 @@ def delete_note():
 
 @views.route('/about')
 def about():
+    """
+    Deze functie handelt het verzoek af voor de about-pagina van de applicatie.
+    De about-pagina wordt gerenderd.
+    """
     return render_template("about.html")
