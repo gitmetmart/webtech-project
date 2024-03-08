@@ -27,6 +27,25 @@ def home():
 
     return render_template("home.html", user=current_user)  #Returnt de home pagine + ingeloggede user
 
+@views.route('/edit-note', methods=['POST'])
+def edit_note():
+    """
+    This function handles the request to edit an existing note.
+    The request contains the ID of the note to be edited and the updated note data.
+    If the note exists and the user is the owner of the note, the note is updated in the database.
+    """
+    note_data = json.loads(request.data)  # Get the note data from the request
+    note_id = note_data['noteId']
+    updated_note = note_data['updatedNote']
+
+    note = Note.query.get(note_id)
+    if note:
+        if note.user_id == current_user.id:  # Check if the user is the owner of the note
+            note.data = updated_note  # Update the note data
+            db.session.commit()
+
+    return jsonify({})
+
 @views.route('/delete-note', methods=['POST'])
 def delete_note():  
     """
@@ -50,4 +69,4 @@ def about():
     Deze functie handelt het verzoek af voor de about-pagina van de applicatie.
     De about-pagina wordt gerenderd.
     """
-    return render_template("about.html")
+    return render_template("about.html", user=current_user)
