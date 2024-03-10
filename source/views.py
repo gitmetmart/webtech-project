@@ -27,16 +27,16 @@ def home():
 
     return render_template("home.html", user=current_user)  #Returnt de home pagine + ingeloggede user
 
-@views.route('/edit-note', methods=['POST'])
+@views.route('/edit-note', methods=['GET, POST'])
 def edit_note():
     """
     This function handles the request to edit an existing note.
     The request contains the ID of the note to be edited and the updated note data.
     If the note exists and the user is the owner of the note, the note is updated in the database.
     """
-    note_data = json.loads(request.data)  # Get the note data from the request
-    note_id = note_data['noteId']
-    updated_note = note_data['updatedNote']
+    note = json.loads(request.data)  # Get the note data from the request
+    note_id = note['noteId']
+    updated_note = note['updatedNote']
 
     note = Note.query.get(note_id)
     if note:

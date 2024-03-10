@@ -81,6 +81,32 @@ def sign_up():
             """
             pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
             return re.match(pattern, email) is not None
+    
+        def is_valid_first_name(first_name):
+            """
+            Controleert of een voornaam geldig is.
+
+            Args:
+                first_name (str): De voornaam die gecontroleerd moet worden.
+
+            Returns:
+                bool: True als de voornaam geldig is, False anders.
+            """
+            pattern = r'^[a-zA-Z]+$' # alleen letters
+            return re.match(pattern, first_name) is not None
+        
+        def is_valid_password(password):
+            """
+            Controleert of een wachtwoord geldig is.
+
+            Args:
+                password (str): Het wachtwoord dat gecontroleerd moet worden.
+
+            Returns:
+                bool: True als het wachtwoord geldig is, False anders.
+            """
+            pattern = r'^[\w\.-]{7,}$' # minimaal 7 karakters
+            return re.match(pattern, password) is not None
 
         user = User.query.filter_by(email=email).first()
         if user:
@@ -89,11 +115,11 @@ def sign_up():
             flash('Invalid email address.', category='error')
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
-        elif len(first_name) < 2:
+        elif not is_valid_first_name(first_name):
             flash('First name must be greater than 1 character.', category='error')
         elif password1 != password2:
             flash('Passwords don\'t match.', category='error')
-        elif len(password1) < 7:
+        elif not is_valid_password(password1):
             flash('Password must be at least 7 characters.', category='error')
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1))
@@ -104,3 +130,12 @@ def sign_up():
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", user=current_user)
+
+
+@auth.route('/about')
+def about():
+    """
+    Deze functie handelt het verzoek af voor de about-pagina van de applicatie.
+    De about-pagina wordt gerenderd.
+    """
+    return render_template("about.html", user=current_user)

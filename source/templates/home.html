@@ -8,6 +8,10 @@
     <div class="note-item" style="display: inline-block; margin: 10px; width: 200px; height: 200px; background-color: darkgray; text-align: center; position: relative;">
       <div class="note-content" style="color: black;">
         {{ note.data }}
+        <button type="button" class="edit-note" onClick="editNote({{ note.id }})" style="position: absolute; top: 0; right: 0; color: darkblue; opacity: 0.5; font-size: 10px;">
+        </button>
+        
+        </button>
       </div>
       <button type="button" class="close" onClick="deleteNote({{ note.id }})" style="position: absolute; top: 0; left: 0; color: darkred;">
         <span aria-hidden="true">&times;</span>
